@@ -1,5 +1,7 @@
 package com.tcs.reservation.feign;
 
+import java.math.BigDecimal;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,5 +18,5 @@ public interface HotelManagementClient {
 	public ResponseEntity<HotelManagement> isHotelIdPresent(@PathVariable Long id);
 
 	@PutMapping("/api/v1/hotelManagements/book/{id}")
-	public ResponseEntity<String> bookHotelRoom(@PathVariable Long id);
+	public ResponseEntity<BigDecimal> bookHotelRoom(@PathVariable Long id);
 }
