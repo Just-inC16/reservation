@@ -9,16 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.tcs.reservation.Dto.HotelManagement;
+import com.tcs.reservation.feign.HotelManagementClient;
+
 @RestController
 @RequestMapping("/api/v1/reservations")
 public class ReservationController {
 
 	private ReservationRepository reservationRepository;
 	private RestTemplate restTemplate;
+	private HotelManagementClient hotelManagementClient;
 
-	public ReservationController(ReservationRepository reservationRepository, RestTemplate restTemplate) {
+	public ReservationController(ReservationRepository reservationRepository, RestTemplate restTemplate,
+			HotelManagementClient hotelManagementClient) {
 		this.reservationRepository = reservationRepository;
 		this.restTemplate = restTemplate;
+		this.hotelManagementClient = hotelManagementClient;
 	}
 
 	@PostMapping
@@ -35,8 +41,8 @@ public class ReservationController {
 	}
 
 	@PostMapping("/reserveHotel")
-	public String reserveHotel(@RequestBody Reservation reservation) {
-		return restTemplate.getForObject("http://localhost:8082/api/v1/hotelManagements/" + reservation.getHotelId(),
-				String.class);
+	public ResponseEntity<HotelManagement> reserveHotel(@RequestBody Reservation reservation) {
+		Long hotelId = reservation.getHotelId();
+		return hotelManagementClient.isHotelIdPresent(hotelId);
 	}
 }
