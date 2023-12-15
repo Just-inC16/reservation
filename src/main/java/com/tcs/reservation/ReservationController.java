@@ -38,8 +38,15 @@ public class ReservationController {
 	}
 
 	@PostMapping("/reserveHotel")
-	public ResponseEntity<HotelManagement> reserveHotel(@RequestBody Reservation reservation) {
+	public ResponseEntity<String> reserveHotel(@RequestBody Reservation reservation) {
 		Long hotelId = reservation.getHotelId();
-		return hotelManagementClient.isHotelIdPresent(hotelId);
+		HotelManagement isHotelPresent = hotelManagementClient.isHotelIdPresent(hotelId).getBody();
+		// Check if hotel room is present
+		if (isHotelPresent != null) {
+			return hotelManagementClient.bookHotelRoom(hotelId);
+		} else {
+			return ResponseEntity.status(409).build();
+		}
+
 	}
 }
