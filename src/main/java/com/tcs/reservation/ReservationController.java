@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.tcs.reservation.Dto.HotelManagement;
 import com.tcs.reservation.feign.HotelManagementClient;
@@ -17,13 +16,11 @@ import com.tcs.reservation.feign.HotelManagementClient;
 public class ReservationController {
 
 	private ReservationRepository reservationRepository;
-	private RestTemplate restTemplate;
 	private HotelManagementClient hotelManagementClient;
 
-	public ReservationController(ReservationRepository reservationRepository, RestTemplate restTemplate,
+	public ReservationController(ReservationRepository reservationRepository,
 			HotelManagementClient hotelManagementClient) {
 		this.reservationRepository = reservationRepository;
-		this.restTemplate = restTemplate;
 		this.hotelManagementClient = hotelManagementClient;
 	}
 
